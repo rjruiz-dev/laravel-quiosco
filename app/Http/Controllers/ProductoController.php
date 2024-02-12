@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductoCollection;
 use App\Models\Producto;
 use Illuminate\Http\Request;
 
@@ -12,7 +13,15 @@ class ProductoController extends Controller
      */
     public function index()
     {
-        //
+        // Consumir los registros, accediendo por medio de pagainacion
+        // return new ProductoCollection(Producto::orderBy('id', 'DESC')->paginate(10));
+
+        // Ademas filtrar solo por los disponibles
+        return new ProductoCollection(
+            Producto::where('disponible', 1)
+            ->orderBy('id', 'DESC')
+            ->paginate(10)
+        );
     }
 
     /**
