@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegistroRequest;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -30,6 +31,16 @@ class AuthController extends Controller
     public function login(LoginRequest $request){
         // return "desde login";
         $data = $request->validated();
+
+        // revisar el password
+        if(!Auth::attempt($data)){
+            return response([
+                'errors' => ['El email o el password son incorrectos']
+            ], 422); // 422 es necesario enviarlo, por defecto es 200 = ok
+        }
+
+        // autenticar al usuario
+        
     }
 
     public function logout(Request $request){
