@@ -39,7 +39,14 @@ class AuthController extends Controller
             ], 422); // 422 es necesario enviarlo, por defecto es 200 = ok
         }
 
-        // autenticar al usuario
+        // autenticar al usuario 
+        $user = Auth::user();
+        // generar y retornar un token
+        return [
+            'token' => $user->createToken('token')->plainTextToken,
+            'user'  => $user
+        ];
+
         
     }
 
