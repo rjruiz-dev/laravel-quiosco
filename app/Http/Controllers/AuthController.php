@@ -51,6 +51,13 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request){
-        
+        // return "Logout...";
+        $user = $request->user();
+        $user->currentAccessToken()->delete(); // elimina el token
+
+        // retorna usuario como vacio
+        return [
+            'user' => null
+        ];
     }
 }
