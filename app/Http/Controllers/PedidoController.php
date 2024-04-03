@@ -26,6 +26,8 @@ class PedidoController extends Controller
         $pedido->user_id = Auth::user()->id; // forma de obtener el usuario autenticado
         $pedido->total = $request->total;    //  forma de leer el pedido es a traves de request (importante mismo nombre que tiene en la peticion con axios)
         $pedido->save(); // alamcenar en la base de datos
+
+        // obtener el id del pedido insertado 
         return [
             'message' => 'realizando pedido'
         ];
