@@ -52,7 +52,7 @@ class PedidoController extends Controller
         PedidoProducto::insert($pedido_producto); // PedidoProducto es el modelo
         
         return [
-            'message' => 'realizando pedido'
+            'message' => 'realizando pedido correctamente, estará listo en unos minutos'
             // 'message' => 'realizando pedido' . $pedido->id,
             // 'productos' => $request->productos
         ];
