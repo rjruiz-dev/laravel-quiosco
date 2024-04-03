@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Pedido;
+use App\Models\PedidoProducto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,15 +23,38 @@ class PedidoController extends Controller
      */
     public function store(Request $request)
     {
-        // Almacenar una orden
+        // almacenar una orden
         $pedido = new Pedido;
         $pedido->user_id = Auth::user()->id; // forma de obtener el usuario autenticado
         $pedido->total = $request->total;    //  forma de leer el pedido es a traves de request (importante mismo nombre que tiene en la peticion con axios)
-        $pedido->save(); // alamcenar en la base de datos
+        $pedido->save(); // almacenar en la base de datos
 
-        // obtener el id del pedido insertado 
+        // obtener el id del pedido al cual pertenecen los productos 
+        $id = $pedido->id;
+
+        // obtener los productos
+        $productos = $request->productos;
+       
+        // formatear un arreglo
+        $pedido_producto = [];
+
+        foreach($productos as $producto) {
+            $pedido_producto[] = [
+                'pedido_id' => $id,
+                'producto_id' => $producto['id'],
+                'cantidad' => $producto['cantidad'],
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ];
+        }
+
+        // almacenar en la db
+        PedidoProducto::insert($pedido_producto); // PedidoProducto es el modelo
+        
         return [
             'message' => 'realizando pedido'
+            // 'message' => 'realizando pedido' . $pedido->id,
+            // 'productos' => $request->productos
         ];
     }
 
